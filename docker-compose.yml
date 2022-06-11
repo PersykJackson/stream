@@ -4,19 +4,35 @@ services:
     image: nginx
     working_dir: /etc/nginx
     ports:
-      - "80:80"
+      - "808:80"
     volumes:
       - ./api_gw.conf:/etc/nginx/conf.d/default.conf
       - ./api_services_conf:/etc/nginx/api_services_conf
+
   database:
     image: mongo
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+
   auth_service:
     build: ./auth_service/
     environment:
       DB_LINK: mongodb://database:27017/auth
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./auth_service/:/usr/app
+
+  live_service:
+    build: ./live_service/
+    ports:
+      - "1935:1935"
+    volumes:
+      - ./live_service/:/usr/app
+
+  info_service:
+    build: ./info_service/
+    volumes:
+      - ./info_service/:/usr/app

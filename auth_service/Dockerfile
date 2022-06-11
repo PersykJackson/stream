@@ -7,4 +7,4 @@ COPY ./package-lock.json /usr/app/package-lock.json
 
 RUN npm i
 
-ENTRYPOINT npm start
+ENTRYPOINT npm run dev

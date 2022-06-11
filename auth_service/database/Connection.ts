@@ -8,8 +8,8 @@ export default class Connection {
   public static getInstance(): Promise<ConnectionInstance> {
     if (!this.instance) {
       this.instance = mongoose.connect(process.env.DB_LINK, {
-        user: 'w1ndows1',
-        pass: '25121996',
+        user: process.env.DB_USER,
+        pass: process.env.DB_PASSWORD,
         authSource: 'admin',
       });
     }
